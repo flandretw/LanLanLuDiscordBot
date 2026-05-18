@@ -350,15 +350,15 @@ async def fetch_history_messages(channel, limit: int, minutes: int, after_messag
              warning_info += "\n⚠️ after_message_id 格式錯誤，已忽略。"
         else:
             fetch_after = discord.Object(id=int(after_message_id))
-            backtrack_summary += f"從 ID {after_message_id} 之後 "
+            backtrack_summary += f"從 ID {after_message_id} 之後"
     elif dt_start:
         # 將 UTC+8 轉回 UTC 以供 Discord API 使用
         utc_start = dt_start.astimezone(datetime.timezone.utc)
         fetch_after = utc_start
-        backtrack_summary += f"從 {dt_start.strftime('%Y-%m-%d %H:%M')} 之後 "
+        backtrack_summary += f"從 {dt_start.strftime('%Y-%m-%d %H:%M')} 之後"
     elif minutes > 0:
         fetch_after = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=minutes)
-        backtrack_summary += f"回溯過去 {minutes} 分鐘 "
+        backtrack_summary += f"回溯過去 {minutes} 分鐘"
 
     # 設定 fetch_before (終點)
     if before_message_id:
@@ -366,11 +366,11 @@ async def fetch_history_messages(channel, limit: int, minutes: int, after_messag
              warning_info += "\n⚠️ before_message_id 格式錯誤，已忽略。"
         else:
             fetch_before = discord.Object(id=int(before_message_id))
-            backtrack_summary += f"到 ID {before_message_id} 之前 "
+            backtrack_summary += f"到 ID {before_message_id} 之前"
     elif dt_end:
         utc_end = dt_end.astimezone(datetime.timezone.utc)
         fetch_before = utc_end
-        backtrack_summary += f"到 {dt_end.strftime('%Y-%m-%d %H:%M')} 之前 "
+        backtrack_summary += f"到 {dt_end.strftime('%Y-%m-%d %H:%M')} 之前"
 
     # 如果有設定 limit (則數限制)
     if limit > 0:
@@ -402,9 +402,9 @@ async def fetch_history_messages(channel, limit: int, minutes: int, after_messag
 @bot.tree.command(name="record", description="開始錄製目前頻道的訊息（支援指定時間範圍）")
 @discord.app_commands.describe(format="輸出檔案的格式（預設為 txt）")
 @discord.app_commands.choices(format=[
-    discord.app_commands.Choice(name="txt (純文字，手機可預覽)", value="txt"),
-    discord.app_commands.Choice(name="md (Markdown 格式)", value="md"),
-    discord.app_commands.Choice(name="both (兩種格式都要)", value="both")
+    discord.app_commands.Choice(name="txt（純文字，手機可預覽）", value="txt"),
+    discord.app_commands.Choice(name="md（Markdown 格式）", value="md"),
+    discord.app_commands.Choice(name="both（兩種格式都要）", value="both")
 ])
 async def record(
     interaction: discord.Interaction, 
@@ -510,9 +510,9 @@ async def record(
 @bot.tree.command(name="summary", description="直接為目前的頻道產生對話摘要（不輸出完整紀錄檔）")
 @discord.app_commands.describe(format="輸出檔案的格式（預設為 txt）")
 @discord.app_commands.choices(format=[
-    discord.app_commands.Choice(name="txt (純文字，手機可預覽)", value="txt"),
-    discord.app_commands.Choice(name="md (Markdown 格式)", value="md"),
-    discord.app_commands.Choice(name="both (兩種格式都要)", value="both")
+    discord.app_commands.Choice(name="txt（純文字，手機可預覽）", value="txt"),
+    discord.app_commands.Choice(name="md（Markdown 格式）", value="md"),
+    discord.app_commands.Choice(name="both（兩種格式都要）", value="both")
 ])
 async def summary_cmd(
     interaction: discord.Interaction, 
