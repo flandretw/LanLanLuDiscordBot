@@ -1,7 +1,6 @@
 import discord
 import os
 import re
-import re
 from google import genai
 from dotenv import load_dotenv
 from discord.ext import commands, tasks
@@ -43,7 +42,6 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 # }
 recording_sessions = {}
 
-# 設定閒置超時時間 (分鐘)
 # 設定閒置超時時間 (分鐘)
 IDLE_TIMEOUT_MINUTES = 30
 # 設定回溯限制
