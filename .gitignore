@@ -9,6 +9,9 @@ __pycache__/
 venv/
 .venv/
 
+# 忽略本機/伺服器執行階段設定檔
+config.json
+
 # 忽略對話紀錄與摘要
-record_*.md
-summary_*.md
+record_*.*
+summary_*.*

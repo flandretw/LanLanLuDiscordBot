@@ -10,9 +10,11 @@ __pycache__/
 .env
 
 # 忽略對話紀錄與摘要，避免打包進映像檔中
-record_*.md
-summary_*.md
+record_*.*
+summary_*.*
 *.md
 
-# Git
+# 設定檔與 Git / CI
+config.json
 .git/
+.github/
