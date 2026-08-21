@@ -39,6 +39,28 @@
 
 ---
 
+## 🤖 Gemini AI 摘要與模型設定
+
+本機器人整合 Google Gemini 官方 `google-genai` SDK，具備自動容錯與多層備援機制：
+
+### 預設支援模型（依優先順序自動備援）：
+1. **`gemini-3.6-flash`**（主力首選：最新、能力最強之 Flash 模型）
+2. **`gemini-3.5-flash`**（第二備援：成熟穩定的主力模型）
+3. **`gemini-3.5-flash-lite`**（第三備援：極速且資源消耗極低之備援模型）
+
+若首選模型因配額或 API 異常無法使用，系統會**自動依序嘗試下一個備援模型**，確保摘要功能持續可用。
+
+### ⚙️ 自訂 Gemini 模型清單
+
+若您希望調整使用的模型或順序，可直接於 [`main.py`](main.py) 的 `generate_summary` 函式中編輯 `models_to_try` 陣列清單：
+
+```python
+# 自訂欲使用的模型與優先順序
+models_to_try = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite']
+```
+
+---
+
 ## 🛠️ 安裝與啟動
 
 ### 方法一：使用 Docker 部署（推薦）
