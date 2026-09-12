@@ -199,7 +199,11 @@ async def generate_summary(channel_name, messages):
         """
 
         # 定義模型優先順序
-        models_to_try = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite']
+        models_to_try = [
+            'gemini-3.8-flash',
+            'gemini-3.7-flash',
+            'gemini-3.6-flash'
+        ]
         
         loop = asyncio.get_running_loop()
 

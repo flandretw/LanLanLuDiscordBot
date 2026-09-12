@@ -44,9 +44,9 @@
 本機器人整合 Google Gemini 官方 `google-genai` SDK，具備自動容錯與多層備援機制：
 
 ### 預設支援模型（依優先順序自動備援）：
-1. **`gemini-3.6-flash`**（主力首選：最新、能力最強之 Flash 模型）
-2. **`gemini-3.5-flash`**（第二備援：成熟穩定的主力模型）
-3. **`gemini-3.5-flash-lite`**（第三備援：極速且資源消耗極低之備援模型）
+1. **`gemini-3.8-flash`**（主力首選：最新、效能最強之 Flash 模型）
+2. **`gemini-3.7-flash`**（第二備援：具備混合推理能力的先進模型）
+3. **`gemini-3.6-flash`**（第三備援：穩定高效之 Flash 模型）
 
 若首選模型因配額或 API 異常無法使用，系統會**自動依序嘗試下一個備援模型**，確保摘要功能持續可用。
 
@@ -56,7 +56,11 @@
 
 ```python
 # 自訂欲使用的模型與優先順序
-models_to_try = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite']
+models_to_try = [
+    'gemini-3.8-flash',
+    'gemini-3.7-flash',
+    'gemini-3.6-flash'
+]
 ```
 
 ---

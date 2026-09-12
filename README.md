@@ -44,9 +44,9 @@ From the LanLanLu universe comes **LanLanLu** — a crazy bot dedicated to kidna
 This bot integrates the official Google Gemini SDK (`google-genai`) with automatic multi-tier fallback mechanisms:
 
 ### Default Supported Models (Fallback Priority):
-1. **`gemini-3.6-flash`** (Primary: Latest, most capable Flash model)
-2. **`gemini-3.5-flash`** (Secondary: Mature and stable model)
-3. **`gemini-3.5-flash-lite`** (Tertiary: Ultra-fast, lightweight fallback)
+1. **`gemini-3.8-flash`** (Primary: Latest, most capable Flash model)
+2. **`gemini-3.7-flash`** (Secondary: Advanced model with hybrid reasoning)
+3. **`gemini-3.6-flash`** (Tertiary: High-performance, fast Flash model)
 
 If the primary model fails or encounters quota limits, the bot **automatically attempts subsequent fallback models** in order.
 
@@ -56,7 +56,11 @@ If you wish to customize or reorder the models, you can directly edit the `model
 
 ```python
 # Custom fallback model order
-models_to_try = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite']
+models_to_try = [
+    'gemini-3.8-flash',
+    'gemini-3.7-flash',
+    'gemini-3.6-flash'
+]
 ```
 
 ---
