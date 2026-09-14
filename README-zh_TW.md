@@ -32,6 +32,8 @@
 * 🛑 **`/stop`**
   停止錄製，並輸出對話紀錄與 AI 摘要檔案（根據錄製時選擇的 `format` 格式）。
   * **對象**：可選填 `target_channel` 指定將檔案傳送至特定頻道，或預設於目前頻道輸出。
+* 🤖 **`/models`**
+  查看目前機器人支援與備援的 Gemini 模型清單、優先順序與 API 金鑰啟用狀態。
 * 💬 **`/say`**
   透過機器人傳送指定訊息，並隱藏指令呼叫者的痕跡。
 * 🛡️ **`/add_role`** 與 **`/remove_role`**
@@ -52,11 +54,11 @@
 
 ### ⚙️ 自訂 Gemini 模型清單
 
-若您希望調整使用的模型或順序，可直接於 [`main.py`](main.py) 的 `generate_summary` 函式中編輯 `models_to_try` 陣列清單：
+若您希望調整使用的模型或順序，可直接於 [`main.py`](main.py) 中的 `GEMINI_MODELS` 陣列清單進行編輯：
 
 ```python
 # 自訂欲使用的模型與優先順序
-models_to_try = [
+GEMINI_MODELS = [
     'gemini-3.8-flash',
     'gemini-3.7-flash',
     'gemini-3.6-flash'

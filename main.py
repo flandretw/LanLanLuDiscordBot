@@ -24,6 +24,13 @@ if GEMINI_API_KEY:
 else:
     print("注意：未設定 GEMINI_API_KEY，AI 摘要功能將停用。")
 
+# 預設支援與備援的 Gemini 模型清單（依優先順序）
+GEMINI_MODELS = [
+    'gemini-3.8-flash',
+    'gemini-3.7-flash',
+    'gemini-3.6-flash'
+]
+
 # 設定 Intent (機器人權限)
 intents = discord.Intents.default()
 intents.message_content = True # 開啟讀取訊息內容的權限
@@ -199,11 +206,7 @@ async def generate_summary(channel_name, messages):
         """
 
         # 定義模型優先順序
-        models_to_try = [
-            'gemini-3.8-flash',
-            'gemini-3.7-flash',
-            'gemini-3.6-flash'
-        ]
+        models_to_try = GEMINI_MODELS
         
         loop = asyncio.get_running_loop()
 
@@ -652,6 +655,33 @@ async def remove_role(interaction: discord.Interaction, role: discord.Role):
     ALLOWED_ROLE_IDS.remove(role.id)
     save_allowed_roles(ALLOWED_ROLE_IDS)
     await interaction.response.send_message(f"✅ 已將 {role.mention} 從授權清單移除。", ephemeral=True)
+
+@bot.tree.command(name="models", description="查看目前支援與備援的 Gemini 模型清單及狀態")
+async def models(interaction: discord.Interaction):
+    if not check_permission(interaction):
+        await interaction.response.send_message("❌ 抱歉，您需要具有伺服器管理員權限或被授權的身分組才能使用此指令。", ephemeral=True)
+        return
+
+    status_icon = "🟢 已設定（正常啟用）" if GEMINI_API_KEY else "🔴 未設定（AI 摘要功能停用）"
+    
+    embed = discord.Embed(
+        title="🤖 Gemini AI 模型配置與狀態",
+        description="本機器人生成對話摘要時，會依優先順序自動嘗試以下模型。若首選模型因額度或異常無法回應，將自動容錯嘗試下一個備援模型。",
+        color=0x4285F4
+    )
+    
+    embed.add_field(name="🔑 API 金鑰狀態", value=status_icon, inline=False)
+    
+    medals = ["🥇 主力首選", "🥈 第二備援", "🥉 第三備援"]
+    model_list_str = ""
+    for i, model in enumerate(GEMINI_MODELS):
+        tag = medals[i] if i < len(medals) else f"第 {i+1} 備援"
+        model_list_str += f"{i+1}. **`{model}`**（{tag}）\n"
+    
+    embed.add_field(name="📋 備援模型清單（依優先順序）", value=model_list_str, inline=False)
+    embed.set_footer(text="攔藍錄 LanLanLu Bot • 由 Google Gemini 驅動")
+
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.event
 async def on_message(message):

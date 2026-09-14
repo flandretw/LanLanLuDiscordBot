@@ -32,6 +32,8 @@ From the LanLanLu universe comes **LanLanLu** — a crazy bot dedicated to kidna
 * 🛑 **`/stop`**
   Stop recording, and output the chat log along with an AI summary (in the `format` specified during recording).
   * **Usage**: Can specify a `target_channel` to send the files to, or default to the current channel.
+* 🤖 **`/models`**
+  Check the currently supported and fallback Gemini models, priority order, and API key status.
 * 💬 **`/say`**
   Send a specific message through the bot. Hides the trace of the command caller, speaking directly as the bot.
 * 🛡️ **`/add_role`** & **`/remove_role`**
@@ -52,11 +54,11 @@ If the primary model fails or encounters quota limits, the bot **automatically a
 
 ### ⚙️ Customizing the Gemini Model List
 
-If you wish to customize or reorder the models, you can directly edit the `models_to_try` array in [`main.py`](main.py) inside `generate_summary()`:
+If you wish to customize or reorder the models, you can directly edit the `GEMINI_MODELS` array in [`main.py`](main.py):
 
 ```python
 # Custom fallback model order
-models_to_try = [
+GEMINI_MODELS = [
     'gemini-3.8-flash',
     'gemini-3.7-flash',
     'gemini-3.6-flash'
