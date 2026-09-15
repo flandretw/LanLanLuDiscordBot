@@ -1,47 +1,45 @@
+<p align="center">
+  <img src="LanLanLu_Profile.gif" alt="LanLanLu Discord Bot Icon" width="128">
+</p>
+
 # LanLanLu Discord Bot (攔藍錄 Discord 機器人)
 
 [English](README.md) | [臺灣正體中文](README-zh_TW.md)
 
-"I want every single word you say!! 🍔"
+> **Disclaimer**  
+> This project was forged using **Gemini "Vibe Coding"**, fueled by AI magic and excessive amounts of digital fries. **Proceed with caution**! If the UI starts dancing or the code looks like a magical incantation, don't worry—it's just the vibe.
 
----
+"I want every single word you say!!"
 
-## 🌀 What is this chaotic masterpiece?
+## What is this chaotic masterpiece?
 
 From the LanLanLu universe comes **LanLanLu** — a crazy bot dedicated to kidnapping your conversation logs!
 
-> ⚠️ **Disclaimer**
-> This project was forged using **Gemini "Vibe Coding"**, fueled by AI magic and excessive amounts of digital fries. **Proceed with caution**! If the UI starts dancing or the code looks like a magical incantation, don't worry—it's just the vibe 🪄
+## Crazy Magical Commands
 
----
+**Note**: Only users with the native **Administrator** permission, or those granted access via `/add_role`, can operate these commands.
 
-## 🔥 Crazy Magical Commands
-
-⚠️ **Note**: Only users with the native **Administrator** permission, or those granted access via `/add_role`, can operate these commands.
-
-* 🎙️ **`/record`**
+* **`/record`**
   Start recording the current channel's chat, or perform a batch export.
   * **Parameters**: Supports `after_message_id`, `before_message_id`, `start_time`, `end_time`, `minutes`, `limit`, `summary`, and `format`.
   * **Output Format (`format`)**: Choose between `txt` (default, mobile-friendly preview), `md`, or `both` for dual-format export.
   * **Normal Recording**: Listens for new messages until stopped.
   * **Batch Export**: Grasps messages within a specified range and outputs the file immediately.
-* 📝 **`/summary`**
+* **`/summary`**
   Directly generate an AI summary for discussions within a specified range without outputting the full chat log file.
   * **Parameters**: Supports specifying a range and a `format` argument (`txt`, `md`, or `both`).
   * **Usage**: Useful when you just want a quick catch-up on discussion highlights and don't need a detailed log file.
-* 🛑 **`/stop`**
+* **`/stop`**
   Stop recording, and output the chat log along with an AI summary (in the `format` specified during recording).
   * **Usage**: Can specify a `target_channel` to send the files to, or default to the current channel.
-* 🤖 **`/models`**
+* **`/models`**
   Check the currently supported and fallback Gemini models, priority order, and API key status.
-* 💬 **`/say`**
+* **`/say`**
   Send a specific message through the bot. Hides the trace of the command caller, speaking directly as the bot.
-* 🛡️ **`/add_role`** & **`/remove_role`**
+* **`/add_role`** & **`/remove_role`**
   Add or remove a role from the authorized list. (Server Administrator permission required)
 
----
-
-## 🤖 Gemini AI Summary & Model Configuration
+## Gemini AI Summary & Model Configuration
 
 This bot integrates the official Google Gemini SDK (`google-genai`) with automatic multi-tier fallback mechanisms:
 
@@ -52,7 +50,7 @@ This bot integrates the official Google Gemini SDK (`google-genai`) with automat
 
 If the primary model fails or encounters quota limits, the bot **automatically attempts subsequent fallback models** in order.
 
-### ⚙️ Customizing the Gemini Model List
+### Customizing the Gemini Model List
 
 If you wish to customize or reorder the models, you can directly edit the `GEMINI_MODELS` array in [`main.py`](main.py):
 
@@ -65,9 +63,7 @@ GEMINI_MODELS = [
 ]
 ```
 
----
-
-## 🛠️ Setup & Usage
+## Setup & Usage
 
 ### Method 1: Deployment via Docker (Recommended)
 Ideal for 24/7 server environments with built-in auto-restart functionality.
@@ -84,10 +80,8 @@ Ideal for 24/7 server environments with built-in auto-restart functionality.
 2. **Install Dependencies**: `pip install -r requirements.txt`
 3. **Start the Bot**: `python main.py`
 
-### 🔑 Role Permissions
+### Role Permissions
 Server Administrators have default access. To authorize other roles, an Administrator must use the `/add_role` command in Discord. The configurations will be saved locally in `config.json`.
-
----
 
 **License & Copyright**  
 Copyright © 2026 flandretw | This project is licensed under the [MIT License](LICENSE).
