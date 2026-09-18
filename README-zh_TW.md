@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="LanLanLu_Profile.gif" alt="LanLanLu Discord Bot Icon" width="128">
+  <img src="LanLanLu_Profile.webp" alt="LanLanLu Discord Bot Icon" width="128">
 </p>
 
 # 攔藍錄 Discord 機器人 (LanLanLu Discord Bot)
