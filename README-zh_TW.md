@@ -2,7 +2,7 @@
   <img src="LanLanLu_Profile.webp" alt="LanLanLu Discord Bot Icon" width="128">
 </p>
 
-# 攔藍錄 Discord 機器人 (LanLanLu Discord Bot)
+# 攔藍錄 Discord 機器人
 
 [English](README.md) | [臺灣正體中文](README-zh_TW.md)
 
@@ -19,43 +19,30 @@
 
 **注意**：僅限擁有 Discord 原生 **伺服器管理員** 權限，或被加入授權清單的身分組操作。
 
-* **`/record`**
-  開始錄製目前頻道的對話內容，或進行批次匯出。
-  * **參數**：支援 `after_message_id`、`before_message_id`、`start_time`、`end_time`、`minutes`、`limit`、`summary` 與 `format`。
-  * **輸出格式 (`format`)**：可選 `txt`（預設，手機可預覽）、`md` 或 `both` 雙格式同時輸出。
-  * **一般錄製**：未指定結束點時，機器人會持續監聽新訊息。
-  * **批次匯出**：有指定結束點時，將直接抓取範圍內訊息並結案輸出。
-* **`/summary`**
-  直接針對指定範圍的對話產生 AI 摘要，不輸出完整的紀錄檔案。
-  * **參數**：支援指定範圍，並提供 `format` 參數選擇輸出為 `txt`（預設）、`md` 或 `both` 雙格式。
-  * **用途**：適合只想快速了解討論重點，而不需要詳細紀錄檔時。
-* **`/stop`**
-  停止錄製，並輸出對話紀錄與 AI 摘要檔案（根據錄製時選擇的 `format` 格式）。
-  * **對象**：可選填 `target_channel` 指定將檔案傳送至特定頻道，或預設於目前頻道輸出。
-* **`/models`**
-  查看目前機器人支援與備援的 Gemini 模型清單、優先順序與 API 金鑰啟用狀態。
-* **`/say`**
-  透過機器人傳送指定訊息，並隱藏指令呼叫者的痕跡。
-* **`/add_role`** 與 **`/remove_role`**
-  將指定身分組加入或移除授權清單（僅限伺服器管理員操作）。
+* **`/record`**：開始錄製頻道對話。未指定結束點時會持續監聽新訊息，直到輸入 `/stop` 結束；若指定了結束時間或訊息 ID 則直接批次匯出該區間紀錄。支援以時間、訊息 ID 或則數篩選，並可選擇輸出為 `txt`（預設）、`md` 或 `both` 雙格式，以及是否產生 AI 摘要。
+* **`/summary`**：直接抓取指定範圍的歷史訊息並產生 AI 摘要，不輸出完整紀錄檔。支援指定時間、訊息 ID 或則數範圍，並可選擇輸出 `txt`、`md` 或 `both` 格式。
+* **`/stop`**：停止目前的錄製工作，將對話紀錄與 AI 摘要檔案輸出至當前頻道；可選填 `target_channel` 將檔案傳送至指定頻道。
+* **`/models`**：查看機器人當前的 Gemini 模型優先順序與 API 金鑰啟用狀態。
+* **`/say`**：讓機器人代表發言並傳送指定訊息，隱藏指令呼叫者的痕跡（自動阻擋 `@everyone` 與 `@here` 廣播提及）。
+* **`/add_role` 與 `/remove_role`**：將指定身分組加入或移出允許使用指令的授權清單（僅限伺服器管理員操作）。
 
 ## Gemini AI 摘要與模型設定
 
-本機器人整合 Google Gemini 官方 `google-genai` SDK，具備自動容錯與多層備援機制：
+本機器人整合 Google Gemini 官方 `google-genai` SDK，具備自動容錯與多層備援機制。
 
-### 預設支援模型（依優先順序自動備援）：
-1. **`gemini-3.8-flash`**（主力首選：最新、效能最強之 Flash 模型）
-2. **`gemini-3.7-flash`**（第二備援：具備混合推理能力的先進模型）
-3. **`gemini-3.6-flash`**（第三備援：穩定高效之 Flash 模型）
+### 預設模型順序與備援機制
 
-若首選模型因配額或 API 異常無法使用，系統會**自動依序嘗試下一個備援模型**，確保摘要功能持續可用。
+預設優先使用 `gemini-3.8-flash` 產生摘要；若遇到 API 配額上限或連線異常，系統會依序向後降級嘗試備援模型：
 
-### 自訂 Gemini 模型清單
+1. `gemini-3.8-flash`（主力首選）
+2. `gemini-3.7-flash`（第二順位備援）
+3. `gemini-3.6-flash`（第三順位備援）
 
-若您希望調整使用的模型或順序，可直接於 [`main.py`](main.py) 中的 `GEMINI_MODELS` 陣列清單進行編輯：
+### 自訂模型清單
+
+若需調整欲使用的模型或優先順序，可直接編輯 [`main.py`](main.py) 中的 `GEMINI_MODELS` 清單：
 
 ```python
-# 自訂欲使用的模型與優先順序
 GEMINI_MODELS = [
     'gemini-3.8-flash',
     'gemini-3.7-flash',

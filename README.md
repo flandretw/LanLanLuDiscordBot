@@ -2,7 +2,7 @@
   <img src="LanLanLu_Profile.webp" alt="LanLanLu Discord Bot Icon" width="128">
 </p>
 
-# LanLanLu Discord Bot (攔藍錄 Discord 機器人)
+# LanLanLu Discord Bot
 
 [English](README.md) | [臺灣正體中文](README-zh_TW.md)
 
@@ -19,43 +19,30 @@ From the LanLanLu universe comes **LanLanLu** — a crazy bot dedicated to kidna
 
 **Note**: Only users with the native **Administrator** permission, or those granted access via `/add_role`, can operate these commands.
 
-* **`/record`**
-  Start recording the current channel's chat, or perform a batch export.
-  * **Parameters**: Supports `after_message_id`, `before_message_id`, `start_time`, `end_time`, `minutes`, `limit`, `summary`, and `format`.
-  * **Output Format (`format`)**: Choose between `txt` (default, mobile-friendly preview), `md`, or `both` for dual-format export.
-  * **Normal Recording**: Listens for new messages until stopped.
-  * **Batch Export**: Grasps messages within a specified range and outputs the file immediately.
-* **`/summary`**
-  Directly generate an AI summary for discussions within a specified range without outputting the full chat log file.
-  * **Parameters**: Supports specifying a range and a `format` argument (`txt`, `md`, or `both`).
-  * **Usage**: Useful when you just want a quick catch-up on discussion highlights and don't need a detailed log file.
-* **`/stop`**
-  Stop recording, and output the chat log along with an AI summary (in the `format` specified during recording).
-  * **Usage**: Can specify a `target_channel` to send the files to, or default to the current channel.
-* **`/models`**
-  Check the currently supported and fallback Gemini models, priority order, and API key status.
-* **`/say`**
-  Send a specific message through the bot. Hides the trace of the command caller, speaking directly as the bot.
-* **`/add_role`** & **`/remove_role`**
-  Add or remove a role from the authorized list. (Server Administrator permission required)
+* **`/record`**: Records channel conversations. If no end point is specified, it continuously listens for incoming messages until `/stop` is called; if an end time or message ID is provided, it performs a batch export for that range. Supports filtering by time, message ID, or message limit, and allows exporting in `txt` (default), `md`, or `both` formats with optional AI summaries.
+* **`/summary`**: Fetches historical messages within a specified range and generates an AI summary without creating a full conversation log. Supports time, message ID, or count limits, and outputs in `txt`, `md`, or `both` formats.
+* **`/stop`**: Stops the current recording session and uploads the log and AI summary to the current channel, with an optional `target_channel` parameter to send files to another channel.
+* **`/models`**: Displays current Gemini fallback model priority and API key status.
+* **`/say`**: Sends a message as the bot while hiding the caller's identity (mass pings like `@everyone` and `@here` are automatically blocked).
+* **`/add_role` & `/remove_role`**: Adds or removes a role from the authorized command list (Administrator permission required).
 
 ## Gemini AI Summary & Model Configuration
 
-This bot integrates the official Google Gemini SDK (`google-genai`) with automatic multi-tier fallback mechanisms:
+This bot integrates the official Google Gemini SDK (`google-genai`) with automatic multi-tier fallback mechanisms.
 
-### Default Supported Models (Fallback Priority):
-1. **`gemini-3.8-flash`** (Primary: Latest, most capable Flash model)
-2. **`gemini-3.7-flash`** (Secondary: Advanced model with hybrid reasoning)
-3. **`gemini-3.6-flash`** (Tertiary: High-performance, fast Flash model)
+### Default Models & Fallback Mechanism
 
-If the primary model fails or encounters quota limits, the bot **automatically attempts subsequent fallback models** in order.
+Summaries are generated using `gemini-3.8-flash` by default. If rate limits or API errors occur, the bot automatically degrades to the next fallback model in line:
 
-### Customizing the Gemini Model List
+1. `gemini-3.8-flash` (Primary)
+2. `gemini-3.7-flash` (Secondary fallback)
+3. `gemini-3.6-flash` (Tertiary fallback)
 
-If you wish to customize or reorder the models, you can directly edit the `GEMINI_MODELS` array in [`main.py`](main.py):
+### Customizing Models
+
+To adjust the models or their priority order, edit the `GEMINI_MODELS` list in [`main.py`](main.py):
 
 ```python
-# Custom fallback model order
 GEMINI_MODELS = [
     'gemini-3.8-flash',
     'gemini-3.7-flash',
