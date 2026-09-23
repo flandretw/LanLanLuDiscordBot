@@ -15,11 +15,11 @@ jobs:
       - name: Pull Latest Code and Restart Container
         run: |
           cd /opt/LanLanLuDiscordBot
-          echo "📥 正在從 GitHub 同步最新程式碼..."
+          echo "正在從 GitHub 同步最新程式碼..."
           git fetch origin main
           git reset --hard origin/main
-          echo "🐳 正在重新建置並啟動容器..."
+          echo "正在重新建置並啟動容器..."
           docker compose up -d --build
-          echo "🧹 清理未使用的虛懸映像檔..."
+          echo "清理未使用的虛懸映像檔..."
           docker image prune -f
-          echo "✅ 攔藍錄部署完成！🚀"
+          echo "攔藍錄部署完成。"
