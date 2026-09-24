@@ -19,20 +19,18 @@ From the LanLanLu universe comes **LanLanLu** — a crazy bot dedicated to kidna
 
 **Note**: Only users with the native **Administrator** permission, or those granted access via `/add_role`, can operate these commands.
 
-* **`/record`**: Records channel conversations. If no end point is specified, it continuously listens for incoming messages until `/stop` is called; if an end time or message ID is provided, it performs a batch export for that range. Supports filtering by time, message ID, or message limit, and allows exporting in `txt` (default), `md`, or `both` formats with optional AI summaries.
-* **`/summary`**: Fetches historical messages within a specified range and generates an AI summary without creating a full conversation log. Supports time, message ID, or count limits, and outputs in `txt`, `md`, or `both` formats.
-* **`/stop`**: Stops the current recording session and uploads the log and AI summary to the current channel, with an optional `target_channel` parameter to send files to another channel.
-* **`/models`**: Displays current Gemini fallback model priority and API key status.
-* **`/say`**: Sends a message as the bot while hiding the caller's identity (mass pings like `@everyone` and `@here` are automatically blocked).
-* **`/add_role` & `/remove_role`**: Adds or removes a role from the authorized command list (Administrator permission required).
+* `/record`: **Record Logs**. Listens in real-time until `/stop`, or performs an immediate batch export if an end time or message ID is provided. Supports time/count filters, format switching (`txt`, `md`, `both`), and optional summary generation.
+* `/summary`: **Instant Summary**. Fetches historical messages and generates key takeaways without exporting full conversation logs.
+* `/stop`: **Stop Session**. Wraps up the current recording and delivers logs to the channel, with optional `target_channel` redirection.
+* `/models`: **Model Hierarchy**. Inspects the current Gemini fallback chain and API status.
+* `/say`: **Echo Message**. Speaks as the bot while concealing the caller, featuring built-in `@everyone` and `@here` mass-ping protection.
+* `/add_role` / `/remove_role`: **Role Management**. Dynamically authorizes or revokes roles allowed to operate the bot (Administrator only).
 
-## Gemini AI Summary & Model Configuration
+## Gemini Summary Fallback Architecture
 
-This bot integrates the official Google Gemini SDK (`google-genai`) with automatic multi-tier fallback mechanisms.
+We never allow summary tasks to crash halfway. The bot features a built-in multi-tier fallback chain: `gemini-3.8-flash` is our primary powerhouse to digest massive amounts of server chatter rapidly. If API rate limits tighten or connection hiccups occur, the system seamlessly hands the baton over to 3.7 and 3.6 to keep summarizing without missing a single beat.
 
-### Default Models & Fallback Mechanism
-
-Summaries are generated using `gemini-3.8-flash` by default. If rate limits or API errors occur, the bot automatically degrades to the next fallback model in line:
+### Fallback Hierarchy
 
 1. `gemini-3.8-flash` (Primary)
 2. `gemini-3.7-flash` (Secondary fallback)
@@ -40,7 +38,7 @@ Summaries are generated using `gemini-3.8-flash` by default. If rate limits or A
 
 ### Customizing Models
 
-To adjust the models or their priority order, edit the `GEMINI_MODELS` list in [`main.py`](main.py):
+To adjust the fallback lineup or reorder priorities, modify `GEMINI_MODELS` in [`main.py`](main.py):
 
 ```python
 GEMINI_MODELS = [
@@ -63,12 +61,12 @@ Ideal for 24/7 server environments with built-in auto-restart functionality.
 3. **Start the Bot**: Run `docker compose up -d`
 
 ### Method 2: Local Execution
-1. **Environment Variables**: Fill in your tokens in the `.env` file.
+1. **Environment Variables**: Fill in your tokens in `.env`.
 2. **Install Dependencies**: `pip install -r requirements.txt`
 3. **Start the Bot**: `python main.py`
 
 ### Role Permissions
-Server Administrators have default access. To authorize other roles, an Administrator must use the `/add_role` command in Discord. The configurations will be saved locally in `config.json`.
+Server Administrators have default access. To authorize other roles, an Administrator can run `/add_role` in Discord. Configuration changes persist in `config.json`.
 
 **License & Copyright**  
 Copyright © 2026 flandretw | This project is licensed under the [MIT License](LICENSE).
